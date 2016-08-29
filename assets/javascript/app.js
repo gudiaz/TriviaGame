@@ -11,42 +11,39 @@ var question = [
     ];
 var unansweredCount = question.length;
 
-// This function starts a new game
-function startGame() {
-	$("#timer").hide();
-	$("#question").hide();
-	$("#answers").hide();
-	$("#btnStart").show();
-	correctCount = 0; incorrectCount = 0; questionNum = 0;
-}
-
 // This function will display a new question 
 function showQuestion() {	
 	// After all the questions have been asked, display the results
 	if (questionNum >= question.length) {
 		var unansweredCount = question.length - correctCount - incorrectCount;
+		stopTimer();
 		result = "<p>All done, here's how you did!</p>";
 		result = result + "<p>Correct Answers: " + correctCount + "</p>";
 		result = result + "<p>Incorrect Answers: " + incorrectCount + "</p>";
 		result = result + "<p>Unanswered: " + unansweredCount + "</p>";
-		$("#btnStart").text("Start Over?");
-		displayResult(result);
-		var resultTimeout = setTimeout(wait, 3000);
-		startGame();
+		$("#btnStart").text("Start Over");
+		$("#btnStart").show();
+		$("#timer").hide();
+		$("#question").hide();
+		$("#answers").hide();
+		displayResult(result, false);
 	}
 	else {
 		$("#result").empty();
 	    $("#question").html("<p>" + question[questionNum] + "</p>");
 		$("#answers").show();
-		number = timeLimit
+		resetTimer();
 		startTimer();
 	}
 }
 
-function displayResult(result) {
+function displayResult(result, doTimeout) {
 	$("#result").html(result);
 	$("#result").show();
 	$("#answers").hide();
+	if (setTimeout) {
+		var resultTimeout = setTimeout(wait, 1 * 1000);
+	}
 }
 
 function wait() {
@@ -54,16 +51,16 @@ function wait() {
 	showQuestion(questionNum);
 }
 
-function showTimer(){
+function showTimer() {
     $("#timer").html("<p>Time remaining: " + number + " seconds</p>");
 }
 
-function startTimer(){
+function startTimer() {
     counter = setInterval(decrement, 1000);
     showTimer()
 }
 
-function stopTimer(){
+function stopTimer() {
     clearInterval(counter);
 }
 
@@ -84,24 +81,33 @@ function outOfTime () {
     stopTimer();
  	result = "<p>Out of Time!</p>";
 	result = result + "<p>The correct answer was: </p>" + correctAnswer;
-	displayResult(result);
-	var resultTimeout = setTimeout(wait, 3000);
+	displayResult(result, true);
 }
 
 function isCorrectAnswer() {
 	return true;
 }
 
-$("#btnStart").on("click", function() {  
+// This function initializes variables
+function newGame() {
+	correctCount = 0; incorrectCount = 0; questionNum = 0;
+	resetTimer();
 	$("#timer").show();
 	$("#question").show();
 	$("#answers").show();
 	$("#result").empty();
+}
+
+$("#btnStart").on("click", function() {  
+	newGame();
 	$("#btnStart").hide();
-	showQuestion();
+	startTimer();
+
 });
 
 $("#answers").on("click", function() {      
+   	stopTimer();
+
 	if (isCorrectAnswer()) {
 		correctCount++
 		result = "<p>Correct!</p>";
@@ -112,12 +118,12 @@ $("#answers").on("click", function() {
 		result = result + "<p>The correct answer was: </p>" + correctAnswer;
 	}
 	
-	displayResult(result);
-	var resultTimeout = setTimeout(wait, 3000);
+	displayResult(result, true);
 });
 
 
 // Start of the game
-startGame();
+$("#answers").hide();
+$("#btnStart").show();
 
 });
