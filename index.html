@@ -3,7 +3,7 @@
 	<head>
 		<title>Trivia Game</title>
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css" -->
+    	<!-- <link rel="stylesheet" type="text/css" href="assets/css/normalize.css" -->
    		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Kaushan+Script|Monofett">  	
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -12,6 +12,16 @@
 
 	<body>
 		<div class="container">
+	   		<div id="timer"></div>
+   			<div id="question"></div>
+			<div id="answers" class="btn-group-vertical" role="group">
+			  	<button id="btnAnswer1" type="button" class="btn btn-secondary">This is answer # 1</button>
+				<button id="btnAnswer2" type="button" class="btn btn-secondary">This is answer # 2</button>
+			  	<button id="btnAnswer3" type="button" class="btn btn-secondary">This is answer # 3</button>
+				<button id="btnAnswer4" type="button" class="btn btn-secondary">This is answer # 4</button>
+			</div>
+			<div id="result"></div>
+			<button id="btnStart" type="button" class="btn">Start</button>
 		</div>
 
 		<script src="assets/javascript/app.js"></script>
